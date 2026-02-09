@@ -38,7 +38,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto">
             <Link
                 href="/menu"
-                className="flex items-center gap-2 text-neutral-400 hover:text-white transition mb-8 font-bold"
+                className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition mb-8 font-bold"
             >
                 <ArrowLeft size={18} /> BACK TO MENU
             </Link>
@@ -60,26 +60,26 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 <div className="flex flex-col h-full">
                     <div className="mb-8">
                         <div className="text-amber-500 font-bold uppercase tracking-widest text-sm mb-4">{product.category}</div>
-                        <h1 className="text-5xl font-black text-white mb-6 leading-tight">{product.name}</h1>
-                        <div className="flex items-center gap-6 mb-8 text-neutral-400">
+                        <h1 className="text-5xl font-black text-neutral-900 dark:text-white mb-6 leading-tight">{product.name}</h1>
+                        <div className="flex items-center gap-6 mb-8 text-neutral-600 dark:text-neutral-400">
                             <div className="flex items-center gap-1 text-amber-500">
                                 {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} fill={i <= 4 ? "currentColor" : "none"} />)}
-                                <span className="ml-2 font-bold text-white">4.9 (120+ reviews)</span>
+                                <span className="ml-2 font-bold text-neutral-900 dark:text-white">4.9 (120+ reviews)</span>
                             </div>
-                            <div className="flex items-center gap-2 border-l border-neutral-800 pl-6">
+                            <div className="flex items-center gap-2 border-l border-neutral-300 dark:border-neutral-800 pl-6">
                                 <Clock size={16} /> 20-30 min
                             </div>
                         </div>
-                        <p className="text-neutral-400 text-lg leading-relaxed mb-8">
+                        <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed mb-8">
                             {product.description}
                             Our ingredients are ethically sourced and delivered fresh every morning.
                             Experience perfection in every bite.
                         </p>
                     </div>
 
-                    <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-8 space-y-8 mb-8">
+                    <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-8 space-y-8 mb-8 shadow-xl dark:shadow-none">
                         <div className="flex items-center justify-between">
-                            <span className="text-neutral-400 font-bold">PRICE PER UNIT</span>
+                            <span className="text-neutral-500 dark:text-neutral-400 font-bold">PRICE PER UNIT</span>
                             {product.discount ? (
                                 <div className="flex items-center gap-3">
                                     <span className="text-3xl font-black text-amber-500">
@@ -90,7 +90,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                                     </span>
                                 </div>
                             ) : (
-                                <span className="text-3xl font-black text-white">Rs {product.price.toFixed(2)}</span>
+                                <span className="text-3xl font-black text-neutral-900 dark:text-white">Rs {product.price.toFixed(2)}</span>
                             )}
                         </div>
 

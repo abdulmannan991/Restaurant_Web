@@ -17,8 +17,8 @@ export default function MenuList() {
         <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto min-h-screen">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                 <div>
-                    <h2 className="text-4xl font-bold text-white mb-2">Our Culinary Art</h2>
-                    <p className="text-neutral-500">Curated dishes from our master chefs</p>
+                    <h2 className="text-4xl font-bold text-neutral-900 dark:text-white mb-2">Our Culinary Art</h2>
+                    <p className="text-neutral-600 dark:text-neutral-500">Curated dishes from our master chefs</p>
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                     {CATEGORIES.map(cat => (
@@ -26,8 +26,8 @@ export default function MenuList() {
                             key={cat}
                             onClick={() => setActiveCategory(cat)}
                             className={`px-6 py-2 rounded-full text-sm font-bold whitespace-nowrap transition ${activeCategory === cat
-                                    ? 'bg-amber-500 text-white'
-                                    : 'bg-neutral-900 text-neutral-500 hover:text-white border border-neutral-800'
+                                ? 'bg-amber-500 text-white'
+                                : 'bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-neutral-800'
                                 }`}
                         >
                             {cat}
