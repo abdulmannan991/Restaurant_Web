@@ -170,10 +170,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
     // Cart functions
     const addToCart = (product: MenuItem, quantity: number, serviceType: string, tableNumber?: string) => {
+        console.log('➕ ADDING TO CART:');
+        console.log('  Product:', product.name);
+        console.log('  Quantity:', quantity);
+        console.log('  Service Type:', serviceType);
+        console.log('  Table Number:', tableNumber);
+
         const newItem: CartItem = { ...product, quantity, serviceType };
         if (tableNumber) {
             newItem.tableNumber = tableNumber;
         }
+
+        console.log('  New Cart Item:', newItem);
 
         const existing = cart.find(item => item.id === product.id && item.serviceType === serviceType);
         if (existing) {
@@ -201,13 +209,25 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
         const firstItem = cart[0];
 
-        // Calculate total with discounts
-        const total = cart.reduce((acc, curr) => {
+        // DEBUG: Log cart items
+        console.log('🛒 CART ITEMS:', cart);
+        console.log('📦 FIRST ITEM:', firstItem);
+        console.log('🍽️ SERVICE TYPE:', firstItem.serviceType);
+        console.log('🪑 TABLE NUMBER:', firstItem.tableNumber);
+
+        // Calculate total with discounts AND tax (10%)
+        const subtotal = cart.reduce((acc, curr) => {
             const finalPrice = curr.discount
                 ? curr.price * (1 - curr.discount / 100)
                 : curr.price;
             return acc + (finalPrice * curr.quantity);
         }, 0);
+        const tax = subtotal * 0.1;
+        const total = subtotal + tax;
+
+        console.log('💰 SUBTOTAL:', subtotal);
+        console.log('💰 TAX:', tax);
+        console.log('💰 TOTAL:', total);
 
         const orderData: Order = {
             id: Date.now().toString(),
@@ -223,12 +243,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
         // Add table number for dine-in
         if (firstItem.serviceType === 'Dine-in' && firstItem.tableNumber) {
             orderData.tableNumber = firstItem.tableNumber;
+            console.log('✅ ADDED TABLE NUMBER TO ORDER:', firstItem.tableNumber);
         }
 
         // Add delivery info for online orders
         if (firstItem.serviceType === 'Online Delivery' && deliveryInfo) {
             orderData.deliveryInfo = deliveryInfo;
+            console.log('✅ ADDED DELIVERY INFO TO ORDER:', deliveryInfo);
         }
+
+        console.log('📋 FINAL ORDER DATA:', orderData);
+        console.log('📋 ORDER SERVICE TYPE:', orderData.serviceType);
 
         setOrders([...orders, orderData]);
         clearCart();

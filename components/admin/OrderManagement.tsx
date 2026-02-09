@@ -6,18 +6,29 @@ import { useApp } from '@/context/AppContext';
 import { useToast } from '@/context/ToastContext';
 import type { Order } from '@/lib/types';
 
+import { CATEGORIES } from '@/lib/constants';
+
 export default function OrderManagement() {
     const { orders, updateOrderStatus } = useApp();
     const { showToast } = useToast();
-    const [activeTab, setActiveTab] = useState<'all' | 'online' | 'dinein' | 'completed'>('all');
+    const [activeTab, setActiveTab] = useState<string>('all');
 
-    const filteredOrders = orders.filter(order => {
-        if (activeTab === 'all') return order.status === 'pending';
-        if (activeTab === 'online') return order.serviceType === 'Online Delivery' && order.status === 'pending';
-        if (activeTab === 'dinein') return order.serviceType === 'Dine-in' && order.status === 'pending';
-        if (activeTab === 'completed') return order.status === 'completed';
-        return true;
-    });
+    const filteredOrders = orders
+        .filter(order => {
+            if (activeTab === 'all') return order.status === 'pending';
+            if (activeTab === 'online') return order.serviceType === 'Online Delivery' && order.status === 'pending';
+            if (activeTab === 'dinein') return order.serviceType === 'Dine-in' && order.status === 'pending';
+            if (activeTab === 'completed') return order.status === 'completed';
+
+            return true;
+        })
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()); // Sort by newest first
+
+    // DEBUG: Log orders
+    console.log('📊 ALL ORDERS:', orders);
+    console.log('📊 FILTERED ORDERS (', activeTab, '):', filteredOrders);
+    console.log('📊 DINE-IN ORDERS:', orders.filter(o => o.serviceType === 'Dine-in'));
+    console.log('📊 ONLINE ORDERS:', orders.filter(o => o.serviceType === 'Online Delivery'));
 
     const handleCompleteOrder = (orderId: string) => {
         updateOrderStatus(orderId, 'completed');
@@ -64,11 +75,11 @@ export default function OrderManagement() {
                 <button
                     onClick={() => setActiveTab('completed')}
                     className={`px-6 py-3 rounded-xl font-bold transition flex items-center gap-2 ${activeTab === 'completed'
-                        ? 'bg-amber-500 text-white'
+                        ? 'bg-green-500 text-white'
                         : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
                         }`}
                 >
-                    <CheckCircle size={18} /> Completed ({orders.filter(o => o.status === 'completed').length})
+                    <CheckCircle size={18} /> Completed Orders ({orders.filter(o => o.status === 'completed').length})
                 </button>
             </div>
 
